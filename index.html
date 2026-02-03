@@ -3,37 +3,71 @@
   <head>
     <meta charset="UTF-8" />
     <title>To-Do List</title>
-    <link rel="stylesheet" href="css/style.css" />
+    <!-- Import Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
   </head>
-  <body>
-    <h1>My To-Do List</h1>
+  <body
+    class="bg-gray-900 text-white min-h-screen flex flex-col items-center p-6"
+  >
+    <h1 class="text-3xl font-bold mb-6">My To-Do List</h1>
 
-    <form id="todo-form">
-      <input type="text" id="task" placeholder="Enter task" required />
-      <input type="date" id="due-date" required />
-      <button type="submit">+</button>
+    <!-- Form -->
+    <form id="todo-form" class="flex gap-2 mb-6">
+      <input
+        type="text"
+        id="task"
+        placeholder="Enter task"
+        required
+        class="px-3 py-2 rounded bg-gray-800 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
+      <input
+        type="date"
+        id="due-date"
+        required
+        class="px-3 py-2 rounded bg-gray-800 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
+      <button
+        type="submit"
+        class="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded text-white font-semibold"
+      >
+        +
+      </button>
     </form>
 
-    <div class="controls">
-      <button id="filter">FILTER</button>
-      <button id="delete-all">DELETE ALL</button>
+    <!-- Controls -->
+    <div class="flex gap-4 mb-6">
+      <button
+        id="filter"
+        class="px-4 py-2 bg-green-600 hover:bg-green-700 rounded"
+      >
+        FILTER
+      </button>
+      <button
+        id="delete-all"
+        class="px-4 py-2 bg-red-600 hover:bg-red-700 rounded"
+      >
+        DELETE ALL
+      </button>
     </div>
 
-    <table>
-      <thead>
-        <tr>
-          <th>TASK</th>
-          <th>DUE DATE</th>
-          <th>STATUS</th>
-          <th>ACTIONS</th>
-        </tr>
-      </thead>
-      <tbody id="todo-list">
-        <tr>
-          <td colspan="4">No task found</td>
-        </tr>
-      </tbody>
-    </table>
+    <!-- Table -->
+    <div class="overflow-x-auto w-full max-w-3xl">
+      <table class="table-auto w-full border-collapse border border-gray-700">
+        <thead class="bg-gray-800">
+          <tr>
+            <th class="border border-gray-700 px-4 py-2">TASK</th>
+            <th class="border border-gray-700 px-4 py-2">DUE DATE</th>
+            <th class="border border-gray-700 px-4 py-2">STATUS</th>
+            <th class="border border-gray-700 px-4 py-2">ACTIONS</th>
+          </tr>
+        </thead>
+        <tbody id="todo-list" class="text-center">
+          <tr>
+            <td colspan="4" class="px-4 py-2">No task found</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
     <script src="js/script.js"></script>
   </body>
