@@ -1,39 +1,163 @@
-const form = document.getElementById("todo-form");
-const todoList = document.getElementById("todo-list");
-const deleteAllBtn = document.getElementById("delete-all");
+// Select Elements
+const todoInput = document.getElementById("todo-input");
+const dateInput = document.getElementById("date-input");
+const addBtn = document.getElementById("add-btn");
+const todoList = document.querySelector(".todo-list");
+const filterOption = document.getElementById("filter-todo");
+const deleteAllBtn = document.getElementById("delete-all-btn");
+const emptyMsg = document.getElementById("empty-msg");
+const errorMsg = document.getElementById("error-msg");
 
-form.addEventListener("submit", function (e) {
-  e.preventDefault();
+addBtn.addEventListener("click", addTodo);
+todoList.addEventListener("click", handleListActions);
+filterOption.addEventListener("change", filterTodo);
+deleteAllBtn.addEventListener("click", deleteAll);
 
-  const task = document.getElementById("task").value.trim();
-  const dueDate = document.getElementById("due-date").value;
+// --- Functions ---
 
-  if (!task || !dueDate) {
-    alert("Please fill in both fields!");
+function addTodo(event) {
+  event.preventDefault(); // Prevent form submit
+
+  const taskText = todoInput.value;
+  const taskDate = dateInput.value;
+
+  // Validation
+  if (taskText === "") {
+    errorMsg.innerText = "Task name cannot be empty!";
     return;
   }
-
-  const row = document.createElement("tr");
-  row.innerHTML = `
-    <td class="border border-gray-700 px-4 py-2">${task}</td>
-    <td class="border border-gray-700 px-4 py-2">${dueDate}</td>
-    <td class="border border-gray-700 px-4 py-2">Pending</td>
-    <td class="border border-gray-700 px-4 py-2">
-      <button class="delete px-3 py-1 bg-red-600 hover:bg-red-700 rounded text-white">Delete</button>
-    </td>
-  `;
-
-  todoList.appendChild(row);
-  form.reset();
-});
-
-deleteAllBtn.addEventListener("click", function () {
-  todoList.innerHTML =
-    '<tr><td colspan="4" class="px-4 py-2">No task found</td></tr>';
-});
-
-todoList.addEventListener("click", function (e) {
-  if (e.target.classList.contains("delete")) {
-    e.target.closest("tr").remove();
+  if (taskDate === "") {
+    errorMsg.innerText = "Please select a due date!";
+    return;
   }
-});
+  errorMsg.innerText = "";
+
+  const todoDiv = document.createElement("li");
+  todoDiv.classList.add("todo-item");
+
+  const taskSpan = document.createElement("span");
+  taskSpan.classList.add("task-text");
+  taskSpan.innerText = taskText;
+  todoDiv.appendChild(taskSpan);
+
+  const dateSpan = document.createElement("span");
+  dateSpan.innerText = taskDate;
+  todoDiv.appendChild(dateSpan);
+
+  // 3. Status Column
+  const statusSpan = document.createElement("span");
+  statusSpan.classList.add("status-badge", "status-pending");
+  statusSpan.innerText = "Pending";
+  todoDiv.appendChild(statusSpan);
+
+  // 4. Actions Column
+  const actionDiv = document.createElement("div");
+
+  // Check Button
+  const checkBtn = document.createElement("button");
+  checkBtn.innerHTML = '<i class="fas fa-check"></i>';
+  checkBtn.classList.add("action-btn", "check-btn");
+  actionDiv.appendChild(checkBtn);
+
+  // Trash Button
+  const trashBtn = document.createElement("button");
+  trashBtn.innerHTML = '<i class="fas fa-trash"></i>';
+  trashBtn.classList.add("action-btn", "trash-btn");
+  actionDiv.appendChild(trashBtn);
+
+  todoDiv.appendChild(actionDiv);
+
+  // Append to List
+  todoList.appendChild(todoDiv);
+
+  // Clear Inputs
+  todoInput.value = "";
+  dateInput.value = "";
+
+  checkEmpty();
+}
+
+function handleListActions(e) {
+  const item = e.target;
+  const todoItem = item.closest(".todo-item");
+
+  if (!todoItem) return;
+
+  // Delete
+  if (
+    item.classList.contains("trash-btn") ||
+    item.parentElement.classList.contains("trash-btn")
+  ) {
+    todoItem.remove();
+    checkEmpty(); // Check if list is empty after delete
+  }
+
+  // Complete
+  if (
+    item.classList.contains("check-btn") ||
+    item.parentElement.classList.contains("check-btn")
+  ) {
+    todoItem.classList.toggle("completed");
+
+    // Update Status Badge
+    const statusBadge = todoItem.querySelector(".status-badge");
+    if (todoItem.classList.contains("completed")) {
+      statusBadge.innerText = "Completed";
+      statusBadge.classList.remove("status-pending");
+      statusBadge.classList.add("status-completed");
+    } else {
+      statusBadge.innerText = "Pending";
+      statusBadge.classList.remove("status-completed");
+      statusBadge.classList.add("status-pending");
+    }
+
+    // Re-apply filter in case we are in "Pending" or "Completed" view
+    filterTodo();
+  }
+}
+
+function filterTodo() {
+  const todos = todoList.childNodes;
+  const filterValue = filterOption.value;
+
+  todos.forEach(function (todo) {
+    if (todo.nodeType === 1) {
+      // Ensure it's an element
+      switch (filterValue) {
+        case "all":
+          todo.style.display = "grid";
+          break;
+        case "completed":
+          if (todo.classList.contains("completed")) {
+            todo.style.display = "grid";
+          } else {
+            todo.style.display = "none";
+          }
+          break;
+        case "pending": // Changed from 'uncompleted' to 'pending' to match HTML value
+          if (!todo.classList.contains("completed")) {
+            todo.style.display = "grid";
+          } else {
+            todo.style.display = "none";
+          }
+          break;
+      }
+    }
+  });
+}
+
+function deleteAll() {
+  // Standard confirm dialog
+  if (confirm("Are you sure you want to delete all tasks?")) {
+    todoList.innerHTML = "";
+    checkEmpty();
+  }
+}
+
+function checkEmpty() {
+  if (todoList.children.length === 0) {
+    emptyMsg.style.display = "block";
+  } else {
+    emptyMsg.style.display = "none";
+  }
+}
