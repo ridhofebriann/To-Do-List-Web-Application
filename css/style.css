@@ -1,293 +1,334 @@
-/* --- Global Styles --- */
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap");
-
+/* --- Reset & Fonts --- */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Poppins", sans-serif; /* Menggunakan font yang lebih modern */
+  font-family: "Poppins", sans-serif;
 }
 
 body {
-  /* Gradient Background yang elegan & dalam */
-  background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
-  color: #e2e8f0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  background: linear-gradient(160deg, #6366f1 0%, #8b5cf6 50%, #d8b4fe 100%);
   min-height: 100vh;
+  padding-bottom: 50px;
+  color: #333;
 }
 
-/* --- Main Container (Glassmorphism Effect) --- */
-.container {
-  background: rgba(30, 41, 59, 0.7); /* Semi-transparan */
-  backdrop-filter: blur(16px); /* Efek blur kaca */
-  -webkit-backdrop-filter: blur(16px);
-  width: 90%;
-  max-width: 750px;
-  padding: 2.5rem;
-  border-radius: 20px;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5); /* Shadow lembut dan besar */
-  border: 1px solid rgba(255, 255, 255, 0.05); /* Border tipis halus */
-  transition: transform 0.3s ease;
-}
-
-.container:hover {
-  box-shadow: 0 25px 60px rgba(99, 102, 241, 0.15); /* Glow ungu tipis saat hover container */
-}
-
-h1 {
+/* --- Header --- */
+header {
   text-align: center;
-  margin-bottom: 2rem;
-  font-size: 2.2rem;
-  font-weight: 600;
-  background: linear-gradient(to right, #818cf8, #c084fc); /* Teks Gradient */
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  letter-spacing: 1px;
+  color: white;
+  padding-top: 40px;
+  padding-bottom: 20px;
 }
 
-/* --- Input Section --- */
-.input-group {
+header h1 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 5px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+header h1 i {
+  color: #fbbf24;
+  margin-right: 10px;
+}
+
+header p {
+  font-size: 0.95rem;
+  opacity: 0.9;
+  margin-bottom: 20px;
+}
+
+.clock-container {
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(5px);
+  padding: 8px 25px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+#digital-clock {
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+}
+
+/* --- Main Container --- */
+.container {
+  width: 90%;
+  max-width: 800px; /* Lebar agar mirip gambar */
+  margin: 0 auto;
+}
+
+/* --- Card Styles (Base) --- */
+.card {
+  background: white;
+  border-radius: 16px;
+  padding: 25px;
+  margin-bottom: 20px;
+  position: relative; /* Untuk strip warna */
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+/* Strip Warna di Kiri (Decorations) */
+.card-strip {
+  position: absolute;
+  left: 0;
+  top: 15px;
+  bottom: 15px;
+  width: 6px;
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+
+.strip-blue {
+  background-color: #6366f1;
+}
+.strip-purple {
+  background-color: #8b5cf6;
+}
+.strip-green {
+  background-color: #10b981;
+}
+
+/* --- Card 1: Input Form --- */
+.input-grid {
   display: flex;
   gap: 15px;
-  margin-bottom: 1rem;
+  align-items: flex-start;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Flex sizing untuk kolom input */
+.input-group:nth-child(1) {
+  flex: 3;
+} /* Task name lebih lebar */
+.input-group:nth-child(2) {
+  flex: 1.5;
+} /* Tanggal */
+.input-group:nth-child(3) {
+  flex: 1.2;
+} /* Jam */
+.input-group:nth-child(4) {
+  flex: 1.5;
+} /* Tombol */
+
+.input-group label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #475569;
 }
 
 input {
-  background: rgba(15, 23, 42, 0.6);
-  border: 1px solid rgba(148, 163, 184, 0.2);
-  padding: 14px 18px;
-  border-radius: 12px;
-  color: white;
+  padding: 10px 15px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
   outline: none;
-  transition: all 0.3s ease;
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+  font-size: 0.95rem;
+  transition: border 0.3s;
+  color: #334155;
 }
 
-input::placeholder {
-  color: #94a3b8;
-  font-weight: 300;
-}
-
-/* Interactivity pada Input: Glowing Border */
 input:focus {
-  border-color: #818cf8;
-  box-shadow: 0 0 15px rgba(129, 140, 248, 0.3);
-  transform: translateY(-2px);
-}
-
-#todo-input {
-  flex: 2;
-}
-#date-input {
-  flex: 1;
-  color-scheme: dark;
-  cursor: pointer;
+  border-color: #6366f1;
 }
 
 #add-btn {
-  background: linear-gradient(135deg, #6366f1, #8b5cf6); /* Gradient Purple */
+  background-color: #6366f1;
   color: white;
   border: none;
-  padding: 0 25px;
-  border-radius: 12px;
+  padding: 11px 0; /* Sesuaikan tinggi dengan input */
+  border-radius: 8px;
+  font-weight: 500;
   cursor: pointer;
-  font-size: 1.2rem;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+  transition: background 0.3s;
+  font-size: 0.95rem;
+  margin-top: auto; /* Agar sejajar bawah */
 }
 
-/* Interactivity pada Tombol Add: Efek tekan & glow */
 #add-btn:hover {
-  transform: translateY(-2px) scale(1.05);
-  box-shadow: 0 8px 25px rgba(99, 102, 241, 0.6);
-}
-#add-btn:active {
-  transform: scale(0.95);
+  background-color: #4f46e5;
 }
 
-.error-message {
-  color: #f87171;
-  font-size: 0.85rem;
-  height: 1.5em;
-  padding-left: 10px;
-  font-weight: 300;
+.error-msg {
+  color: #ef4444;
+  font-size: 0.8rem;
+  margin-top: 10px;
+  height: 15px;
 }
 
-/* --- Controls (Filter & Delete All) --- */
-.controls {
+/* --- Card 2: Filter --- */
+.card-filter h3,
+.card-list h3 {
+  font-size: 1.1rem;
+  color: #1e293b;
+  margin-bottom: 15px;
+}
+
+.filter-buttons {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 2rem;
-  padding: 0 5px;
+  gap: 10px;
+  margin-bottom: 15px;
 }
 
 .filter-btn {
-  background: rgba(15, 23, 42, 0.8);
-  color: #cbd5e1;
-  padding: 10px 20px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 10px;
+  padding: 8px 20px;
+  border-radius: 20px;
+  border: 1px solid #e2e8f0;
+  background: white;
+  color: #64748b;
+  font-weight: 600;
+  font-size: 0.9rem;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.3s;
 }
 
-.filter-btn:hover {
-  background: #1e293b;
-  border-color: #818cf8;
-}
-
-.delete-all-btn {
-  background: linear-gradient(135deg, #ef4444, #f43f5e); /* Gradient Red */
+/* Active State Filter (Ungu solid) */
+.filter-btn.active {
+  background-color: #7c3aed; /* Violet */
   color: white;
-  padding: 10px 24px;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 0.85rem;
-  letter-spacing: 0.5px;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+  border-color: #7c3aed;
+  box-shadow: 0 4px 10px rgba(124, 58, 237, 0.3);
 }
 
-.delete-all-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(239, 68, 68, 0.5);
+.search-input {
+  width: 100%;
+  background-color: #f8fafc;
 }
 
-.list-header {
-  display: grid;
-  grid-template-columns: 3fr 2fr 1.5fr 1fr;
-  padding: 15px 20px;
-  margin-bottom: 10px;
-  border-radius: 12px;
-  background: rgba(15, 23, 42, 0.4);
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  color: #94a3b8;
-  font-weight: 600;
+/* --- Card 3: List --- */
+.card-list {
+  min-height: 200px;
 }
 
 .todo-list {
   list-style: none;
-  max-height: 400px;
-  overflow-y: auto;
-  padding-right: 5px;
-}
-
-.todo-list::-webkit-scrollbar {
-  width: 6px;
-}
-.todo-list::-webkit-scrollbar-track {
-  background: transparent;
-}
-.todo-list::-webkit-scrollbar-thumb {
-  background: #475569;
-  border-radius: 10px;
-}
-.todo-list::-webkit-scrollbar-thumb:hover {
-  background: #64748b;
+  margin-top: 10px;
 }
 
 .todo-item {
-  display: grid;
-  grid-template-columns: 3fr 2fr 1.5fr 1fr;
+  display: flex;
   align-items: center;
-  background: rgba(30, 41, 59, 0.4);
+  background: #f8fafc;
+  padding: 15px;
+  border-radius: 10px;
   margin-bottom: 10px;
-  padding: 15px 20px;
-  border-radius: 12px;
-  border: 1px solid transparent;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-  overflow: hidden;
+  border: 1px solid #f1f5f9;
+  transition: all 0.2s;
 }
 
-/* Interactivity List Item: Highlight saat hover */
 .todo-item:hover {
-  background: rgba(45, 55, 72, 0.6);
-  transform: translateX(5px);
-  border-color: rgba(129, 140, 248, 0.3);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  border-color: #e2e8f0;
+  transform: translateY(-2px);
 }
 
-.task-text {
-  font-weight: 500;
-  font-size: 0.95rem;
+.todo-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
-/* Status Badge Styles */
-.status-badge {
-  padding: 6px 12px;
-  border-radius: 20px;
-  font-size: 0.7rem;
-  font-weight: 700;
-  text-align: center;
-  width: fit-content;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+.todo-text {
+  font-weight: 600;
+  color: #334155;
+  font-size: 1rem;
 }
 
-.status-pending {
-  background: rgba(245, 158, 11, 0.15);
-  color: #fbbf24;
-  border: 1px solid rgba(251, 191, 36, 0.3);
-}
-.status-completed {
-  background: rgba(16, 185, 129, 0.15);
-  color: #34d399;
-  border: 1px solid rgba(52, 211, 153, 0.3);
+.todo-meta {
+  font-size: 0.75rem;
+  color: #94a3b8;
+  margin-top: 4px;
+  display: flex;
+  gap: 10px;
 }
 
-/* Completed Logic */
-.todo-item.completed {
-  opacity: 0.6;
-}
-.todo-item.completed .task-text {
-  text-decoration: line-through;
-  color: #64748b;
+.todo-meta i {
+  margin-right: 4px;
 }
 
-/* Action Buttons */
+/* Actions */
+.todo-actions {
+  display: flex;
+  gap: 8px;
+}
+
 .action-btn {
-  background: transparent;
+  width: 35px;
+  height: 35px;
+  border-radius: 8px;
   border: none;
   cursor: pointer;
-  font-size: 1.1rem;
-  transition:
-    transform 0.2s,
-    color 0.2s;
-  padding: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background 0.2s;
 }
 
-.check-btn {
-  color: #34d399;
-}
-.trash-btn {
-  color: #f87171;
-}
-
-.check-btn:hover {
-  transform: scale(1.2);
+.btn-check {
+  background: #d1fae5;
   color: #10b981;
-  filter: drop-shadow(0 0 5px rgba(52, 211, 153, 0.5));
 }
-.trash-btn:hover {
-  transform: scale(1.2) rotate(10deg);
+.btn-check:hover {
+  background: #10b981;
+  color: white;
+}
+
+.btn-delete {
+  background: #fee2e2;
   color: #ef4444;
-  filter: drop-shadow(0 0 5px rgba(248, 113, 113, 0.5));
+}
+.btn-delete:hover {
+  background: #ef4444;
+  color: white;
+}
+
+/* Completed State */
+.todo-item.completed {
+  opacity: 0.6;
+  background: #f1f5f9;
+}
+.todo-item.completed .todo-text {
+  text-decoration: line-through;
+  color: #94a3b8;
 }
 
 /* Empty State */
-.empty-msg {
+.empty-state {
   text-align: center;
-  color: #64748b;
-  margin-top: 3rem;
+  padding: 40px 0;
+  color: #94a3b8;
   font-style: italic;
-  opacity: 0.7;
+  background-color: #f8fafc;
+  border-radius: 10px;
+  margin-top: 10px;
+}
+
+/* Responsif untuk HP */
+@media (max-width: 600px) {
+  .input-grid {
+    flex-direction: column;
+  }
+  .input-group,
+  .input-group:nth-child(n) {
+    width: 100%;
+    flex: auto;
+  }
+  #add-btn {
+    width: 100%;
+    margin-top: 10px;
+  }
+  .filter-buttons {
+    flex-wrap: wrap;
+  }
+  .filter-btn {
+    flex: 1;
+    text-align: center;
+  }
 }
